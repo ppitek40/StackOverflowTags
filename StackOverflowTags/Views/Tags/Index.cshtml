@@ -1,0 +1,36 @@
+﻿@model TagsViewModel
+
+<h2>List of 1000 the most popular tags on Stackoverflow</h2>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Popularity
+        </th>
+        <th>
+            % of popularity
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var tag in Model.Tags)
+    {
+        <tr>
+            <th>
+                @tag.Name
+            </th>
+            <th>
+                @tag.Count
+            </th>
+            <th>
+                @(Math.Round((float)tag.Count/Model.PopularitySum*100,4))%
+            </th>
+        </tr>
+    }
+    </tbody>
+</table>
