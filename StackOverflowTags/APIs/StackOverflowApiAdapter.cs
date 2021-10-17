@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Logging;
-
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using RestEase;
@@ -26,22 +25,20 @@ namespace StackOverflowTags.APIs
         private readonly IStackOverflowApi _stackOverflowApi;
         private readonly ILogger<TagsController> _logger;
 
-
         public StackOverflowApiAdapter(ILogger<TagsController> logger)
         {
-            
             _stackOverflowApi = RestClient.For<IStackOverflowApi>("https://api.stackexchange.com/"+ApiVersion);
             _logger = logger;
-            
         }
 
         public async Task<List<Tag>> GetTagsAsync()
         {
             var result = new List<Tag>();
             
-            for (int i = 1; i <= 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 Stream response;
+
                 try
                 {
                     response = await _stackOverflowApi.GetTagsAsync(i,100, Site, Sort, Order, Filter);
@@ -60,11 +57,11 @@ namespace StackOverflowTags.APIs
             _logger.LogDebug("Successfully obtained 1000 tags");
             return result;
 
-
         }
-        public T DeserializeResponse<T>(Stream stream){
-
+        public T DeserializeResponse<T>(Stream stream)
+        {
             string stringContent;
+
             using (var gZipStream = new GZipStream(stream, CompressionMode.Decompress))
             using (var streamReader = new StreamReader(gZipStream))
             {
@@ -86,9 +83,7 @@ namespace StackOverflowTags.APIs
 
     public interface IStackOverflowApi
     {
-        
         [Get("tags")]
         Task<Stream> GetTagsAsync([Query] int page,[Query] int pagesize, [Query] string site,[Query] string sort, [Query] string order, [RawQueryString] string filter);
-
     }
 }

@@ -13,17 +13,17 @@ namespace StackOverflowTags.Controllers
     {
         private readonly ILogger<TagsController> _logger;
         private readonly StackOverflowApiAdapter _stackOverflowApiAdapter;
+
         public TagsController(ILogger<TagsController> logger)
         {
             _logger = logger;
             _stackOverflowApiAdapter = new StackOverflowApiAdapter(logger);
-
-
         }
-        public async  Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index()
         {
-            
             var tagsList = await _stackOverflowApiAdapter.GetTagsAsync();
+
             if (tagsList == null)
             {
                 return View("Error");
@@ -36,8 +36,6 @@ namespace StackOverflowTags.Controllers
                 Tags = tagsList,
                 PopularitySum = popularitySum
             };
-
-
 
             return View(viewModel);
         }
