@@ -32,12 +32,13 @@ namespace StackOverflowTags.APIs
             
             _stackOverflowApi = RestClient.For<IStackOverflowApi>("https://api.stackexchange.com/"+ApiVersion);
             _logger = logger;
+            
         }
 
         public async Task<List<Tag>> GetTagsAsync()
         {
             var result = new List<Tag>();
-
+            
             for (int i = 1; i <= 10; i++)
             {
                 Stream response;
@@ -53,6 +54,7 @@ namespace StackOverflowTags.APIs
 
                 var content = DeserializeResponse<GetTagsResponse>(response);
                 result.AddRange(content.Items);
+                await response.DisposeAsync();
             }
 
             _logger.LogDebug("Successfully obtained 1000 tags");
