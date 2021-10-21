@@ -14,10 +14,10 @@ namespace StackOverflowTags.Controllers
         private readonly ILogger<TagsController> _logger;
         private readonly StackOverflowApiAdapter _stackOverflowApiAdapter;
 
-        public TagsController(ILogger<TagsController> logger)
+        public TagsController(ILogger<TagsController> logger, StackOverflowApiAdapter stackOverflowApiAdapter)
         {
             _logger = logger;
-            _stackOverflowApiAdapter = new StackOverflowApiAdapter(logger);
+            _stackOverflowApiAdapter = stackOverflowApiAdapter;
         }
 
         public async Task<IActionResult> Index()
