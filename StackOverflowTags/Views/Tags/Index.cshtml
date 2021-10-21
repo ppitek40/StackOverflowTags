@@ -1,35 +1,52 @@
 ﻿@model TagsViewModel
 
 <h2>List of 1000 the most popular tags on Stackoverflow</h2>
+<div class="container">
+    <br />
+    <div style="width:90%">
+        <table id="tags" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Popularity
+                    </th>
+                    <th>
+                        % of popularity
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tag in Model.Tags)
+                {
+                    <tr>
+                        <th>
+                            @tag.Name
+                        </th>
+                        <th>
+                            @tag.Count
+                        </th>
+                        <th>
+                            @(Math.Round((float)tag.Count/Model.PopularitySum*100,4))%
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <br />
+    <br />
 
-<table>
-    <thead>
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Popularity
-        </th>
-        <th>
-            % of popularity
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var tag in Model.Tags)
-    {
-        <tr>
-            <th>
-                @tag.Name
-            </th>
-            <th>
-                @tag.Count
-            </th>
-            <th>
-                @(Math.Round((float)tag.Count/Model.PopularitySum*100,4))%
-            </th>
-        </tr>
+    @section scripts
+{
+        <script>
+            $(document).ready(function () {
+                $("#tags").DataTable({
+                    "order": [[1, "desc"]]
+                });
+            });
+        </script>
     }
-    </tbody>
-</table>
