@@ -24,8 +24,9 @@ namespace StackOverflowTags
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<StackOverflowApiAdapter>();
             services.AddControllersWithViews();
+
+            services.AddScoped<IStackOverflowApiAdapter, StackOverflowApiAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

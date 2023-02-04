@@ -11,10 +11,14 @@ namespace StackOverflowTags.Controllers
 {
     public class TagsController : Controller
     {
-        private readonly ILogger<TagsController> _logger;
-        private readonly StackOverflowApiAdapter _stackOverflowApiAdapter;
 
-        public TagsController(ILogger<TagsController> logger, StackOverflowApiAdapter stackOverflowApiAdapter)
+        private const int NumberOfTagsToGet = 1000;
+
+        private readonly ILogger<TagsController> _logger;
+        private readonly IStackOverflowApiAdapter _stackOverflowApiAdapter;
+
+        public TagsController(ILogger<TagsController> logger,
+            IStackOverflowApiAdapter stackOverflowApiAdapter)
         {
             _logger = logger;
             _stackOverflowApiAdapter = stackOverflowApiAdapter;
@@ -22,7 +26,7 @@ namespace StackOverflowTags.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var tagsList = await _stackOverflowApiAdapter.GetTagsAsync();
+            var tagsList = await _stackOverflowApiAdapter.GetMostPopularTagsAsync(NumberOfTagsToGet);
 
             if (tagsList == null)
             {
